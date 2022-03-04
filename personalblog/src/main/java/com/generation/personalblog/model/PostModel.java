@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "post")
+@Table(name = "tb_post")
 public class PostModel {
 
 	@Id
@@ -38,6 +38,10 @@ public class PostModel {
 	@ManyToOne
 	@JsonIgnoreProperties("post")
 	private ThemeModel theme;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("post")
+	private UserModel user;
 
 	public long getId() {
 		return id;
@@ -70,7 +74,7 @@ public class PostModel {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+
 	public ThemeModel getTheme() {
 		return theme;
 	}
@@ -79,6 +83,12 @@ public class PostModel {
 		this.theme = theme;
 	}
 
-	
+	public UserModel getUser() {
+		return user;
+	}
+
+	public void setUser(UserModel user) {
+		this.user = user;
+	}
 	
 }
