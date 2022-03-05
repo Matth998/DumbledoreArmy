@@ -36,9 +36,9 @@ public class UserService {
 		
 		if(userRepository.findById(user.getId()).isPresent()) {
 			
-			Optional<UserModel> buscaUsuario = userRepository.findByUser(user.getUser());
+			Optional<UserModel> searchUser = userRepository.findByUser(user.getUser());
 			
-			if ( (buscaUsuario.isPresent()) && ( buscaUsuario.get().getId() != user.getId()))
+			if ( (searchUser.isPresent()) && ( searchUser.get().getId() != user.getId()))
 				throw new ResponseStatusException(
 						HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 			
