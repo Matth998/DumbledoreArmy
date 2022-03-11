@@ -8,34 +8,37 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.generation.personalblog.model.UserModel;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails{
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	private String userName;
 	private String password;
 	private List<GrantedAuthority> authorities;
 
 	public UserDetailsImpl(UserModel user) {
-		this.userName = user.getUser();
+		
+		this.userName = user.getName();
 		this.password = user.getPassword();
+		
 	}
-
+	
 	public UserDetailsImpl() {
+		
 	}
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+		return authorities; 
 	}
 
 	@Override
 	public String getPassword() {
-		return password;
+		return password; 
 	}
 
 	@Override
 	public String getUsername() {
-
 		return userName;
 	}
 
@@ -58,4 +61,5 @@ public class UserDetailsImpl implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 }

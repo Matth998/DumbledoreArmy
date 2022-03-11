@@ -46,7 +46,7 @@ public class UserControllerTest {
 		
 		assertEquals(request.getBody().getName(), res.getBody().getName());
 		
-		assertEquals(request.getBody().getUser(), res.getBody().getUser());
+		assertEquals(request.getBody().getEmail(), res.getBody().getEmail());
 		
 	}
 	
@@ -87,7 +87,7 @@ public class UserControllerTest {
 		
 		assertEquals(request.getBody().getName(), res.getBody().getName());
 		
-		assertEquals(request.getBody().getUser(), res.getBody().getUser());
+		assertEquals(request.getBody().getEmail(), res.getBody().getEmail());
 		
 	}
 	

@@ -26,7 +26,7 @@ import com.generation.personalblog.service.UserService;
 @RequestMapping("/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
-
+	
 	@Autowired
 	private UserService userService;
 	
@@ -34,39 +34,49 @@ public class UserController {
 	private UserRepository userRepository;
 	
 	@GetMapping("/all")
-	public ResponseEntity <List<UserModel>> getAll(){
+	public ResponseEntity<List<UserModel>>getAll(){
+		
 		return ResponseEntity.ok(userRepository.findAll());
 	}
-
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<UserModel> getById(@PathVariable Long id){
-		return userRepository.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
+	public ResponseEntity<UserModel>getById(@PathVariable Long id){
+		
+		return userRepository.findById(id).map(res-> ResponseEntity.ok(res))
 				.orElse(ResponseEntity.notFound().build());
+		
 	}
 	
-	@PostMapping("/login")
+	@GetMapping("/name/{name}")
+	public ResponseEntity<List<UserModel>> getByName(@PathVariable String name){
+		
+		return ResponseEntity.ok(userRepository.findAllByNameContainingIgnoreCase(name));
+		
+	}
+
+	@PostMapping ("/login")
 	public ResponseEntity<UserLogin> login(@RequestBody Optional<UserLogin> userLogin){
+	
+		return userService.authenticateUser(userLogin) 
+					.map(res->ResponseEntity.status(HttpStatus.OK).body(res))
+					.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 		
-		return userService.authenticateUser(userLogin)
-			.map(resp -> ResponseEntity.status(HttpStatus.OK).body(resp))
-			.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	
-	@PostMapping("/register")
-	public ResponseEntity<UserModel> postUsuario(@Valid @RequestBody UserModel user){
+	@PostMapping ("/register")
+	public ResponseEntity<UserModel> register(@Valid @RequestBody UserModel userModel){
 		
-		return userService.registerUser(user)
-			.map(resp -> ResponseEntity.status(HttpStatus.CREATED).body(resp))
-			.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-	}
-	
-	@PutMapping("/update")
-	public ResponseEntity<UserModel> putUsuario(@Valid @RequestBody UserModel user){
+		return userService.registerUser(userModel)
+					.map(res->ResponseEntity.status(HttpStatus.CREATED).body(res))
+					.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 		
-		return userService.updateUser(user)
-			.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
-			.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-	
+
+	@PutMapping ("/update")
+	public ResponseEntity<UserModel> updateUser(@Valid @RequestBody UserModel userModel){
+			
+		return userService.updateUser(userModel)
+					.map(res->ResponseEntity.status(HttpStatus.OK).body(res))
+					.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
 }

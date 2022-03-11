@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,43 +18,49 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
-@Table(name = "tb_user")
+@Table (name = "tb_user")
 public class UserModel {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@NotNull(message = "O atributo Nome é Obrigatório!")
+	private long id;
+	
+	@NotBlank
+	@Size (min = 2, message = "O atributo é obrigatório!")
 	private String name;
-
-	@Schema(example = "email@dominio.com")
-	@NotNull(message = "O atributo Usuário é Obrigatório!")
-	@Email(message = "O atributo Usuário deve ser um email válido!")
-	private String user;
-
-	@NotBlank(message = "O atributo Senha é Obrigatório!")
-	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
+	
+	@Schema(example = "email@email.com")
+	@NotBlank (message = "O atributo é obrigatório!")
+	@Email (message = "Esse não é um email válido!")
+	private String email;
+	
+	@NotBlank
+	@Size (min = 8, message = "A senha deve conter o minímo 8 caracteres!")
 	private String password;
-
+	
 	private String photo;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("user")
-	private List<PostModel> postagem;
+	@OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties ("user")
+	private List<PostModel>post;
 	
-	public UserModel(Long id, String name, String user, String password, String photo) {
+	public UserModel (Long id, String name, String email, String password, String photo) {
+		
 		this.id = id;
 		this.name = name;
-		this.user = user;
+		this.email = email;
 		this.password = password;
 		this.photo = photo;
 	}
+
+	public UserModel () {}
 	
-	public UserModel() { }
-	
-	public Long getId() {
+	public long getId() {
 		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -66,12 +71,12 @@ public class UserModel {
 		this.name = name;
 	}
 
-	public String getUser() {
-		return user;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -90,16 +95,12 @@ public class UserModel {
 		this.photo = photo;
 	}
 
-	public List<PostModel> getPostagem() {
-		return postagem;
+	public List<PostModel> getPost() {
+		return post;
 	}
 
-	public void setPostagem(List<PostModel> postagem) {
-		this.postagem = postagem;
+	public void setPost(List<PostModel> post) {
+		this.post = post;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	
 }

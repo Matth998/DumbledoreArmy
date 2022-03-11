@@ -41,9 +41,9 @@ public class UserRepositoryTest {
 	@DisplayName("Returns only one user")
 	public void returnOneUser() {
 		
-		Optional<UserModel> userModel = userRepository.findByUser("luiz.carecabrabo@gmail.com");
+		Optional<UserModel> userModel = userRepository.findByEmail("luiz.carecabrabo@gmail.com");
 		
-		assertTrue(userModel.get().getUser().equals("luiz.carecabrabo@gmail.com"));
+		assertTrue(userModel.get().getEmail().equals("luiz.carecabrabo@gmail.com"));
 		
 	}
 	

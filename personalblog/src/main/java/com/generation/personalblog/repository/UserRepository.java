@@ -11,7 +11,7 @@ import com.generation.personalblog.model.UserModel;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Long> {
 
-	public Optional<UserModel> findByUser(String user);
+	public Optional<UserModel> findByEmail(String email);
 
 	public List<UserModel> findAllByNameContainingIgnoreCase(String name);
 
